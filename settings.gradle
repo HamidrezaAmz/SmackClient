@@ -1,0 +1,2 @@
+rootProject.name = "SmackTester"
+include ':app'
