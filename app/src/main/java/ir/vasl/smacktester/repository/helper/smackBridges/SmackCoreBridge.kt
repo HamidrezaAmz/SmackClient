@@ -123,7 +123,10 @@ class SmackCoreBridge private constructor(context: Context) : ConnectionListener
             generatedMessage,
             stanzaId
         )
+    }
 
+    fun getChatHistory(stanzaId: String) {
+        SmackChatBridge.getChatHistory(smackConnectionBridge.getConnectionInstance(), stanzaId)
     }
 
     fun disconnect() {

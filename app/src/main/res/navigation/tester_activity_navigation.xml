@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tester_activity_navigation"
-    app:startDestination="@id/fifthFragment">
+    app:startDestination="@id/sixthFragment">
 
     <fragment
         android:id="@+id/firstFragment"
@@ -38,4 +38,9 @@
         android:name="ir.vasl.smacktester.view.fragments.FifthFragment"
         android:label="fragment_fifth"
         tools:layout="@layout/fragment_fifth" />
+    <fragment
+        android:id="@+id/sixthFragment"
+        android:name="ir.vasl.smacktester.view.fragments.SixthFragment"
+        android:label="fragment_sixth"
+        tools:layout="@layout/fragment_sixth" />
 </navigation>

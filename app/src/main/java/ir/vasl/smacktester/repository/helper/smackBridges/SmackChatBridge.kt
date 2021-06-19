@@ -2,6 +2,9 @@ package ir.vasl.smacktester.repository.helper.smackBridges
 
 import android.util.Log
 import ir.vasl.smacktester.repository.PublicValues
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.jivesoftware.smack.AbstractXMPPConnection
 import org.jivesoftware.smack.chat2.Chat
 import org.jivesoftware.smack.chat2.ChatManager
@@ -9,8 +12,11 @@ import org.jivesoftware.smack.chat2.IncomingChatMessageListener
 import org.jivesoftware.smack.chat2.OutgoingChatMessageListener
 import org.jivesoftware.smack.packet.Message
 import org.jivesoftware.smack.packet.MessageBuilder
+import org.jivesoftware.smackx.mam.MamManager
+import org.jivesoftware.smackx.mam.MamManager.MamQueryArgs
 import org.jxmpp.jid.EntityBareJid
 import org.jxmpp.jid.impl.JidCreate
+
 
 object SmackChatBridge : IncomingChatMessageListener, OutgoingChatMessageListener {
 
@@ -70,6 +76,38 @@ object SmackChatBridge : IncomingChatMessageListener, OutgoingChatMessageListene
 
     fun getChatManager(): ChatManager? {
         return chatManager
+    }
+
+    fun getChatHistory(connection: AbstractXMPPConnection, target: String) {
+
+        val jid = JidCreate.from(target + "@" + PublicValues.serverNameTest)
+        val jid2 = JidCreate.from(target)
+
+        CoroutineScope(Dispatchers.IO).launch {
+
+            var mamManager = MamManager.getInstanceFor(connection)
+
+            mamManager.enableMamForAllMessages()
+
+            Log.i(TAG, "mamManager support -> : ${mamManager.isSupported}")
+
+            try {
+
+                val mamQueryArgs = MamQueryArgs.builder()
+                    // .limitResultsToJid(jid)
+                    .setResultPageSizeTo(10)
+                    .queryLastPage()
+                    .build()
+
+                val mamQuery = mamManager.queryArchive(mamQueryArgs)
+
+                Log.i(TAG, "getChatHistory: mamQuery -> ${mamQuery.messageCount}")
+                Log.i(TAG, "getChatHistory: mamQuery -> ${mamQuery.messages.toString()}")
+
+            } catch (e: Exception) {
+                Log.e(TAG, "getChatHistory: $e")
+            }
+        }
     }
 
     fun sendChatMessage(chatManager: ChatManager?, message: String, target: String) {

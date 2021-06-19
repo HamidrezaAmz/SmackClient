@@ -65,6 +65,14 @@ object SmackConnectionBridge : ConnectionListener {
             .setPort(port)
             .enableDefaultDebugger()
             .setCompressionEnabled(true)
+            /*.setCallbackHandler {
+                println("debug: setCallbackHandler()")
+                if (it.isNullOrEmpty().not()) {
+                    for (callback in it) {
+                        println("debug: callback -> ${callback.toString()}")
+                    }
+                }
+            }*/
             .build()
     }
 
@@ -95,7 +103,29 @@ object SmackConnectionBridge : ConnectionListener {
     fun connectAndLogin() {
         CoroutineScope(Dispatchers.Main).launch {
             withContext(Dispatchers.IO) {
-                connection.connect().login()
+                try {
+                    // connection.connect().login()
+
+                    connection.connect()
+                    if (connection.isConnected) {
+                        Log.v(TAG, "-> attemptLogin -> connected")
+                    } else {
+                        Log.e(TAG, "connectAndLogin: Unable to connect")
+                    }
+
+                    connection.login()
+                    if (connection.isAuthenticated) {
+                        Log.v(
+                            TAG,
+                            "-> attemptLogin -> ${connection.configuration.username} authenticated"
+                        )
+                    } else {
+                        Log.e(TAG, "Unable to login")
+                    }
+
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
         }
     }

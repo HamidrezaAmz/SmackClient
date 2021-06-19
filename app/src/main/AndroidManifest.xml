@@ -14,11 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SmackTester"
         android:usesCleartextTraffic="true">
-
-        <activity android:name=".view.TesterActivity">
-
-        </activity>
-
+        <activity android:name=".view.Tester2Activity"></activity>
+        <activity android:name=".view.TesterActivity"></activity>
         <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,7 +23,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

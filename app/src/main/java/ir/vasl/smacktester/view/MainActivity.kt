@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TimerInterface, 
     private fun init() {
         findViewById<View>(R.id.appCompatButton_connect).setOnClickListener(this)
         findViewById<View>(R.id.appCompatButton_send_message).setOnClickListener(this)
+        findViewById<View>(R.id.appCompatButton_get_chat_history).setOnClickListener(this)
         findViewById<View>(R.id.appCompatButton_disconnect).setOnClickListener(this)
 
         TimerHelper.apply {
@@ -71,6 +72,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TimerInterface, 
                     editText_target_username.text.toString()
                 )
 
+            }
+            R.id.appCompatButton_get_chat_history -> {
+                SmackCoreBridge.getInstance(this@MainActivity)
+                    .getChatHistory("reza")
             }
             R.id.appCompatButton_disconnect -> {
 
