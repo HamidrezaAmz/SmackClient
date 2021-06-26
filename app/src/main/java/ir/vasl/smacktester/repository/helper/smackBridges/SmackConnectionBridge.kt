@@ -11,6 +11,7 @@ import org.jivesoftware.smack.ConnectionListener
 import org.jivesoftware.smack.XMPPConnection
 import org.jivesoftware.smack.tcp.XMPPTCPConnection
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration
+import org.jivesoftware.smack.util.TLSUtils
 
 object SmackConnectionBridge : ConnectionListener {
 
@@ -57,14 +58,36 @@ object SmackConnectionBridge : ConnectionListener {
         host: String,
         port: Int
     ): XMPPTCPConnectionConfiguration {
+
         return XMPPTCPConnectionConfiguration.builder()
             .setUsernameAndPassword(username, password)
             .setXmppDomain(domain)
-            .setSecurityMode(ConnectionConfiguration.SecurityMode.disabled)
             .setHost(host)
             .setPort(port)
             .enableDefaultDebugger()
-            .setCompressionEnabled(true)
+            .setCompressionEnabled(false)
+            .setSecurityMode(ConnectionConfiguration.SecurityMode.required)
+            .setCustomX509TrustManager(TLSUtils.AcceptAllTrustManager())
+            /*.setCustomX509TrustManager(object : X509TrustManager {
+                override fun checkClientTrusted(
+                    chain: Array<out X509Certificate>?,
+                    authType: String?
+                ) {
+                    // TODO("Not yet implemented")
+                }
+
+                override fun checkServerTrusted(
+                    chain: Array<out X509Certificate>?,
+                    authType: String?
+                ) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun getAcceptedIssuers(): Array<X509Certificate> {
+                    TODO("Not yet implemented")
+                }
+
+            })*/
             /*.setCallbackHandler {
                 println("debug: setCallbackHandler()")
                 if (it.isNullOrEmpty().not()) {

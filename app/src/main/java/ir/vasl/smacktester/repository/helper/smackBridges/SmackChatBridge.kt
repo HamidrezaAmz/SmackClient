@@ -17,7 +17,6 @@ import org.jivesoftware.smackx.mam.MamManager.MamQueryArgs
 import org.jxmpp.jid.EntityBareJid
 import org.jxmpp.jid.impl.JidCreate
 
-
 object SmackChatBridge : IncomingChatMessageListener, OutgoingChatMessageListener {
 
     private const val TAG = "SmackChatBridge"
@@ -81,7 +80,6 @@ object SmackChatBridge : IncomingChatMessageListener, OutgoingChatMessageListene
     fun getChatHistory(connection: AbstractXMPPConnection, target: String) {
 
         val jid = JidCreate.from(target + "@" + PublicValues.serverNameTest)
-        val jid2 = JidCreate.from(target)
 
         CoroutineScope(Dispatchers.IO).launch {
 
@@ -94,7 +92,7 @@ object SmackChatBridge : IncomingChatMessageListener, OutgoingChatMessageListene
             try {
 
                 val mamQueryArgs = MamQueryArgs.builder()
-                    // .limitResultsToJid(jid)
+                    .limitResultsToJid(jid)
                     .setResultPageSizeTo(10)
                     .queryLastPage()
                     .build()
@@ -102,7 +100,14 @@ object SmackChatBridge : IncomingChatMessageListener, OutgoingChatMessageListene
                 val mamQuery = mamManager.queryArchive(mamQueryArgs)
 
                 Log.i(TAG, "getChatHistory: mamQuery -> ${mamQuery.messageCount}")
-                Log.i(TAG, "getChatHistory: mamQuery -> ${mamQuery.messages.toString()}")
+                // Log.i(TAG, "getChatHistory: mamQuery -> ${mamQuery.messages.toString()}")
+
+                for (i in 0..mamQuery.messageCount) {
+                    Log.i(TAG, "getChatHistory: message -> ${mamQuery.messages[i].body}")
+                }
+
+                // val archivePref = mamManager.retrieveArchivingPreferences()
+                // Log.i(TAG, "getChatHistory: archivePref -> ${archivePref.toString()}")
 
             } catch (e: Exception) {
                 Log.e(TAG, "getChatHistory: $e")

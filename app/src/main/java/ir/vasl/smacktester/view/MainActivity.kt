@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TimerInterface, 
     }
 
     private fun init() {
+
         findViewById<View>(R.id.appCompatButton_connect).setOnClickListener(this)
         findViewById<View>(R.id.appCompatButton_send_message).setOnClickListener(this)
         findViewById<View>(R.id.appCompatButton_get_chat_history).setOnClickListener(this)
@@ -71,19 +72,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TimerInterface, 
                     editText_message.text.toString(),
                     editText_target_username.text.toString()
                 )
-
             }
             R.id.appCompatButton_get_chat_history -> {
                 SmackCoreBridge.getInstance(this@MainActivity)
-                    .getChatHistory("reza")
+                    .getChatHistory(editText_target_username.text.toString())
             }
             R.id.appCompatButton_disconnect -> {
-
                 PrinterHelper.printLogIntoTextView(
                     findViewById<View>(R.id.textView_log) as TextView,
                     LogGeneratorHelper.generateLogMessage("Disconnect from XMPP Server")
                 )
-
                 SmackCoreBridge.getInstance(this).disconnect()
             }
         }

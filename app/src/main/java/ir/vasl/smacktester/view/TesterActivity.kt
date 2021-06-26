@@ -10,4 +10,5 @@ class TesterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tester)
     }
+
 }

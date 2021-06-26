@@ -77,7 +77,7 @@ dependencies {
     implementation group: 'org.igniterealtime.smack', name: 'smack-android-extensions', version: '4.4.2'
     implementation group: 'org.igniterealtime.smack', name: 'smack-experimental', version: '4.4.2'
     implementation group: 'org.igniterealtime.smack', name: 'smack-tcp', version: '4.4.2'
-    
+
     //    implementation group: 'org.igniterealtime.smack', name: 'smack-android', version: '4.4.2'
     //    implementation group: 'org.igniterealtime.smack', name: 'smack-im', version: '4.4.2'
     //    implementation group: 'org.igniterealtime.smack', name: 'smack-extensions', version: '4.4.2'
